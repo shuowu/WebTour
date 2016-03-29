@@ -5,6 +5,7 @@
 
   var selector = null;
   var overlay = null;
+  var captionContainer = null;
   var audio = null;
   var eventIndex = 0;
 
@@ -74,12 +75,18 @@
   };
 
   app.showCaption = function(caption) {
-    $('body').append(Tour.templates.captionBar({caption: caption}).content);
+    if (!captionContainer) {
+      $('body').append(Tour.templates.captionBar({caption: caption}).content);
+      captionContainer = $('.tour-caption-container');
+      return this;
+    }
+
+    captionContainer.find('.tour-caption').text(caption);
     return this;
   };
 
   app.hideCaption = function() {
-    $('.tour-caption-bar').fadeOut();
+    $('.tour-caption-container').fadeOut();
     return this;
   };
 
