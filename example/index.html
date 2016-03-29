@@ -15,12 +15,27 @@
     </div>
   </div>
 
+  <div id="container2">
+    <h2>Test....</h2>
+  </div>
+
+
+
+
   <script type="text/javascript" src="jquery.min.js"></script>
   <script type="text/javascript" src="soyutils.js"></script>
   <script type="text/javascript" src="./../dist/tour.js"></script>
   <script>
+    var events = [{
+      selector: '#container',
+      caption: 'This is container1, Welcome to use this plugin'
+    },{
+      selector: '#container2',
+      caption: 'This is container2, Step2'
+    }];
+
     $(document).ready(function() {
-      Tour.resizeOverlay('#container');
+      Tour.play(events);
     });
   </script>
 </body>

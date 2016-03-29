@@ -1,9 +1,12 @@
 (function(window, $) {
+  var DEFAULT_EVENT_TIMEOUT = 3000;
+
   var app = {};
 
   var selector = null;
   var overlay = null;
   var audio = null;
+  var eventIndex = 0;
 
   app.initOverlay = function() {
     var this_ = this;
@@ -56,10 +59,10 @@
 
     overlay.fadeIn();
 
+    // Handle click event outside target element
     $(document).off('click.tour');
     $(document).on('click.tour', function(event) {
-      if(!$(event.target).closest(sel).length &&
-          !$(event.target).is(sel)) {
+      if(!$(event.target).closest(sel).length && !$(event.target).is(sel)) {
         this_.hide();
       }
     });
@@ -86,6 +89,10 @@
   };
 
   app.playAudio = function(url) {
+    if (!url) {
+      return;
+    }
+
     // Stop audio for previous event
     if (audio) {
       audio.stop();
@@ -110,9 +117,59 @@
 
   };
 
+  app.playEvent = function(events, index) {
+    var event = events[index];
+    if (!event ||
+        typeof event['selector'] === 'undefined' ||
+        typeof event['caption'] === 'undefined') {
+      console.error('Bad tour event', event);
+      return;
+    }
 
-  app.destroy = function() {
+    eventIndex = index;
 
+    this.resizeOverlay(event['selector']);
+    this.showCaption(event['caption']);
+    this.playAudio(event['audio']);
+  };
+
+  app.play = function(events) {
+    var this_ = this;
+
+    if (!events || !events.length) {
+      return;
+    }
+
+    for (var i = 0, ii = events.length; i < ii; i++) {
+      if (i == 0) {
+        this.playEvent(events, i);
+      }
+
+      (function(index) {
+        setTimeout(function() {
+          if (index == events.length - 1) {
+            setTimeout(function() {
+              this_.stop();
+            }, events[index]['duration'] || DEFAULT_EVENT_TIMEOUT);
+            return;
+          }
+
+          this_.playEvent(events, index + 1);
+        }, events[index]['duration'] || DEFAULT_EVENT_TIMEOUT);
+      })(i);
+    }
+  };
+
+  app.pause = function() {
+    this.pauseAudio();
+
+    //TODO: timer function to pause and resume timeout
+  };
+
+
+  app.stop = function() {
+    this.pause();
+    this.hide();
   };
 
   // Append app to window.Tour
