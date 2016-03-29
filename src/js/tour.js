@@ -1,4 +1,26 @@
 (function(window, $) {
+  $.fn.isOnScreen = function(){
+
+    var win = $(window);
+
+    var viewport = {
+      top : win.scrollTop(),
+      left : win.scrollLeft()
+    };
+    viewport.right = viewport.left + win.width();
+    viewport.bottom = viewport.top + win.height();
+
+    var bounds = this.offset();
+    bounds.right = bounds.left + this.outerWidth();
+    bounds.bottom = bounds.top + this.outerHeight();
+
+    return (!(viewport.right < bounds.left ||
+        viewport.left > bounds.right ||
+        viewport.bottom < bounds.top ||
+        viewport.top > bounds.bottom));
+  };
+
+
   var DEFAULT_EVENT_TIMEOUT = 3000;
 
   var app = {};
@@ -44,7 +66,7 @@
     var el = $(sel);
 
     // Scroll element into view
-    if (!el.visible(true)) {
+    if (!el.isOnScreen()) {
       el[0].scrollIntoView({
         behavior: "smooth",
         block: "start"

@@ -8,7 +8,7 @@
     "onchange": "^2.2.0"
   },
   "scripts": {
-    "css": "./node_modules/less/bin/lessc ./src/css/templates.less ./dist/templates.css",
+    "css": "./node_modules/less/bin/lessc ./src/css/templates.less ./dist/tour.css",
     "soy": "java -jar ./node_modules/google-closure-templates/javascript/SoyToJsSrcCompiler.jar --outputPathFormat ./src/js/templates.js --srcs ./src/soy/templates.soy",
     "build": "npm run css && npm run soy && cat ./src/js/* > ./dist/tour.js",
     "watch": "onchange './src/css/' './src/soy/' './src/js/tour.js' -- npm run build"
