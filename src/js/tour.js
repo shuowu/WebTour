@@ -37,6 +37,23 @@
     this.hideOverlay();
   };
 
+  app.playAudio = function(url) {
+    // Stop audio for previous event
+    if (this.audio) {
+      this.audio.stop();
+    }
+
+    this.audio = new Audio(url);
+    this.audio.play();
+    return this;
+  };
+
+  app.pauseAudio = function() {
+    if (this.audio) {
+      this.audio.pause();
+    }
+  };
+
 
   app.destroy = function() {
 
