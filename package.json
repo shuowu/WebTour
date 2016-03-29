@@ -1,0 +1,32 @@
+{
+  "name": "jQuery-App-Tour",
+  "version": "1.0.0",
+  "description": "A third party plugin to provide tutorial for  complex website or web app",
+  "devDependencies": {
+    "google-closure-templates": "^20150410.0.0",
+    "less": "^2.6.1",
+    "onchange": "^2.2.0"
+  },
+  "scripts": {
+    "css": "./node_modules/less/bin/lessc ./src/css/templates.less ./dist/templates.css",
+    "soy": "java -jar ./node_modules/google-closure-templates/javascript/SoyToJsSrcCompiler.jar --outputPathFormat ./src/js/templates.js --srcs ./src/soy/templates.soy",
+    "build": "npm run css && npm run soy && cat ./src/js/* > ./dist/tour.js",
+    "watch": "onchange './src/css/' './src/soy/' './src/js/tour.js' -- npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shuowu/jQuery-App-Tour.git"
+  },
+  "keywords": [
+    "plugin",
+    "tour",
+    "third",
+    "party"
+  ],
+  "author": "Shuo Wu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shuowu/jQuery-App-Tour/issues"
+  },
+  "homepage": "https://github.com/shuowu/jQuery-App-Tour"
+}
