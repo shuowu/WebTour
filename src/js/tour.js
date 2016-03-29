@@ -42,6 +42,15 @@
     selector = sel;
 
     var el = $(sel);
+
+    // Scroll element into view
+    if (!el.visible(true)) {
+      el[0].scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
     var offset = el.offset();
     var top = offset.top;
     var left = offset.left;
@@ -140,6 +149,9 @@
     this.playAudio(event['audio']);
   };
 
+  /**
+   * @param {Array.<Object>} events
+   */
   app.play = function(events) {
     var this_ = this;
 
